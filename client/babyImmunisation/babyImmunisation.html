@@ -1,0 +1,144 @@
+<template name='babyImmunisation'>
+
+	<div class="container">
+		<div class='row'>
+			<div class='col s12'>
+
+				<blockquote style='font-size: 20px'>Immunisation Record</blockquote>
+
+				<div class="btn-group">
+					<ul class="collapsible popout babyImmuCollapsible" data-collapsible="accordion">
+						{{#each immuDataTypes}}
+							<li>
+						      	<div class="collapsible-header immuInfoClick"><i class="material-icons">open_in_new</i>{{name_s}}
+						      	</div>
+						      	<div class="collapsible-body">
+									<table class='striped responsive-table'>
+										<thead>
+											<tr class="{{class}} immuRowClick">
+												<th data-field="id">Dose</th><th data-field="name">Status</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											{{#each desc}}
+												<tr class='immuRowClick'>
+													<td>{{dose}}</td>
+													<td>
+														{{#if doseTaken taken}}
+															<i class="material-icons">done</i>
+														{{/if}}
+														{{#if doseMissed taken}}
+															<i class="material-icons">clear</i>	
+														{{/if}}
+														{{#if dosePending taken}}
+															<!--<i class="material-icons">remove</i>-->
+															Pending
+														{{/if}}
+														{{#if doseNA taken}}
+															N/A
+														{{/if}}
+													</td>
+												</tr>
+											{{/each}}
+										</tbody>
+									</table>
+						      	</div>
+						    </li>
+						{{/each}}
+					</ul>
+		    	</div>
+			</div>
+
+			{{#if hasSelectedImmuType}}
+			<div class='col s12'>
+				<div class="card teal lighten-1">
+					<div class="card-content white-text">
+						<h6><u>{{getSelectedImmuType}}</u> 
+							<div class='right'>
+								<a class="waves-effect waves-light btn-flat btn_CloseImmuDesc"><i class="material-icons">clear</i></a>
+							</div>
+						</h6>
+						<p>{{getSelectedImmuTypeDesc}}</p>
+					</div>
+				</div>
+			</div>
+			{{/if}}
+
+		</div>
+
+		<div class='row'>
+			<div class='col s6'>
+			    <i class="material-icons prefix">face</i>
+				<label>Age:</label>
+				<select id='immuAgeSelect'>
+					<option value="" disabled selected>Select Age</option>
+					{{#each immuAgeRange}}
+						<option value="{{this}}">{{this}}</option>
+					{{/each}}
+				</select>
+			</div>
+			<div class='col s6'>
+				<div class="card teal lighten-1">
+					<div class="card-content white-text">
+						<h6>Age: <u>{{getImmuAgeCardAge}}</u></h6>
+						<p>{{getimmuAgeCardDescription}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="immuModal_Taken" class="modal">
+		<div class="modal-content">
+			<h5><strong>{{selectedImuDataRow.displayName}} ({{selectedImuDataRow.dose}}): Taken on {{selectedImuDataRow.date}} </strong></h5>
+			<p><u> {{displayBabyName}} </u></p>
+			
+			<h6>{{selectedImuDataRow.brand}}. Batch No: {{selectedImuDataRow.batch}}</h6>
+			<p> {{selectedImuDataRow.desc}} <br>By Dr. {{selectedImuDataRow.doc}} @ {{selectedImuDataRow.place}} </p>
+			<img src="/signature.png" width='30%'>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+
+	<div id="immuModal_Missed" class="modal">
+		<div class="modal-content">
+			<h5><strong>{{selectedImuDataRow.displayName}}: {{selectedImuDataRow.dose}} Dose Missed</strong></h5>
+
+			<h6>To be taken at age: {{selectedImuDataRow.expectedAge}}</h6>
+			<p>Please contact your nearest family clinic for assistance</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+
+	<div id="immuModal_Pending" class="modal">
+		<div class="modal-content">
+			<h5><strong>{{selectedImuDataRow.displayName}}: {{selectedImuDataRow.dose}}</strong></h5>
+			<h6>To be taken at age: {{selectedImuDataRow.expectedAge}}</h6>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+
+	<div id="immuModal_NA" class="modal">
+		<div class="modal-content">
+			<h5><strong>{{selectedImuDataRow.displayName}}: {{selectedImuDataRow.dose}}</strong></h5>
+			<h6>Only for females</h6>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('.babyImmuCollapsible').collapsible({
+	      accordion : false
+	    });
+	    $('select').material_select();
+	</script>
+</template>

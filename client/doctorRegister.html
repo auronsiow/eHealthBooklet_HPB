@@ -1,0 +1,62 @@
+<template name="doctorRegister">
+	<form>
+		<div class="row">
+			<div class="col s8 offset-s2">
+				<h5>New User Registration</h5>
+	        </div>
+	  	</div>
+		<div class="row">
+			<div class="input-field col s8 offset-s2">
+				<i class="material-icons prefix">account_box</i>
+				<input id="loginId" type="text" class="validate">
+				<label class='active' for="loginId">Registration No</label>
+	        </div>
+	  	</div>
+		<div class="row">
+			<div class="input-field col s8 offset-s2">
+				<i class="material-icons prefix">lock</i>
+				<input id="loginPassword" type='password' class="validate">
+				<label class='active' for="loginPassword">Password</label>
+	        </div>
+	  	</div>
+		<div class="row">
+			<div class="input-field col s8 offset-s2">
+				<i class="material-icons prefix">person</i>
+				<input id="docName" type="text" class="validate">
+				<label class='active' for="docName">Name</label>
+	        </div>
+	  	</div>
+		<div class="row">
+			<div class="input-field col s8 offset-s2">
+				<i class="material-icons prefix">work</i>
+				<input id="docPlace" type="text" class="validate">
+				<label class='active' for="docPlace">Practice Place</label>
+	        </div>
+	  	</div>
+	  	<div class='row'>
+        	<div class='col s8 offset-s2'>
+        		<button class="btn waves-effect waves-light menu_submit" type="submit">Register</button>
+        	</div>
+        </div>
+	</form>
+	
+	<div id="modal_RegistrationFailed" class="modal bottom-sheet">
+		<div class="modal-content">
+			<h4>Registration Failed</h4>
+			<p>Please complete all the fields</p>
+		</div>
+			<div class="modal-footer">
+			<a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">Dismiss</a>
+		</div>
+	</div>
+
+	<div id="modal_RegistrationSucceeded" class="modal bottom-sheet">
+		<div class="modal-content">
+			<h4>Registration Succeeded</h4>
+			<p>Please enter your Registration No and Password to use the platform</p>
+		</div>
+			<div class="modal-footer">
+			<a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">Dismiss</a>
+		</div>
+	</div>
+</template>

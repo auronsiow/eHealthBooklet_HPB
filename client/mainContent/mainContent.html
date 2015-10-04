@@ -1,0 +1,29 @@
+<template name='mainContent'>
+	{{#if displayParticulars}}
+		{{> babyParticulars}}
+	{{/if}}
+
+	{{#if displayImmunisation}}
+		{{> babyImmunisation}}
+	{{/if}}
+
+	{{#if displayAllergy}}
+		{{> babyAllergy}}
+	{{/if}}
+
+	{{#if displayBirthRecord}}
+		{{> babyBirthRecord}}
+	{{/if}}
+
+	{{#if displayAppt}}
+		{{> babyApptRecord}}
+	{{/if}}
+
+	{{#if displayPhys}}
+		{{> babyPhysicalStatus}}
+	{{/if}}
+
+	{{#if displayTooth}}
+		{{> babyToothInfo}}
+	{{/if}}	
+</template>

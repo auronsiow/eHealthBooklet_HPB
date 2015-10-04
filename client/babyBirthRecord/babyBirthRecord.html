@@ -1,0 +1,100 @@
+<template name="babyBirthRecord">
+
+	<div class='container'>
+		<blockquote style='font-size: 20px'>Birth Record</blockquote>
+
+	    <div class="row">
+			<div class="col s12 m6">
+				<div class="card grey lighten-3">
+					<div class="card-content black-text">
+						<h5>Birth Health Record</h5>
+						<p>
+							Weight at birth: {{record.birth_weight}} gm <br>
+							Length at birth: {{record.birth_length}} cm <br>
+
+							Jaundice: 
+							<input type='checkbox' id='chk_Jaundice' disabled {{record.jaund}}/><label for='chk_Jaundice'>.</label><br>
+
+							Phototherapy: 
+							<input type='checkbox' disabled {{record.photo}} id='chk_Photo'><label for='chk_Photo'>.</label><br>
+
+							Exchange Transfuction 
+							<input type='checkbox' disabled {{record.ex_trans}} id='chk_exTrans'><label for='chk_exTrans'>.</label><br>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12 m6">
+				<div class="card grey lighten-3">
+					<div class="card-content black-text">
+						<h5>Discharge Information</h5>
+						<p>
+							Date: {{record.dis_date}} <br>
+							Weight: {{record.dis_weight}} gm <br>
+							Breast Fed: 
+							<input type='checkbox' disabled {{record.breast_fed}} id='chk_Breast'><label for='chk_Breast'>.</label><br>
+							Serum Bilrubin: {{record.serum}} umol/L <br>
+						</p>
+					</div>
+				</div>
+			</div>
+      </div>
+
+      <div class="row">
+			<div class="col s12 m6">
+				<div class="card grey lighten-3">
+					<div class="card-content black-text">
+						<h5>Newborn Screening</h5>
+						<p>
+							G6PD Deficiency <input type='checkbox' disabled {{record.g6pd}} id='chk_G6PD'><label for='chk_G6PD'></label> tested on {{record.g6pd_date}} <br>
+							TSH: {{record.tsh}} mlU/L on {{record.tsh_date}} <br>
+							fT4: {{record.ft4}} pmol/L on {{record.ft4_date}} <br>
+							IEM Screening: <input type='checkbox' disabled {{record.iem}} id='chk_IEM'><label for='chk_IEM'>.</label> <br>
+							<input type='checkbox' disabled {{record.oae}} id='chk_OAE'><label for='chk_OAE'></label> OAE: {{record.oae_date}} <br>
+							Left Pass <input type='checkbox' disabled {{record.oae_lp}} id='chk_OAE_LP'><label>.</label> 
+							Right Pass <input type='checkbox' disabled {{record.oae_rp}} id='chk_OAE_RP'><label>.</label> <br>
+							<input type='checkbox' disabled {{record.abaer}} id='chk_ABAET'><label>.</label> ABAER: {{record.abaer_date}} <br>
+							Left Pass <input type='checkbox' disabled {{record.abaer_lp}} id='chk_ABAET_LP'><label>.</label> 
+							Right Pass <input type='checkbox' disabled {{record.abaer_rp}} id='chk_ABAET_RP'><label>.</label>  <br>
+							Require follow up? 
+							Yes <input type='checkbox' disabled {{record.follow_y}} id='chk_follow_y'><label>.</label> 
+							No <input type='checkbox' disabled {{record.follow_n}} id='chk_follow_n'><label>.</label> <br>
+							Remarks: {{record.remarks}} <br>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			{{#if hasDoneInvestigationTest}}
+			<div class="col s12 m6">
+				<div class="card grey lighten-3">
+					<div class="card-content black-text">
+						<h5>Investigations Done</h5>
+						<p>
+							<div class='table-responsive'>
+								<table class="table table-striped table-hover table-bordered">
+								  	<thead>
+								  		<tr>
+									  		<th class='col-md-1'>Test</th>
+									  		<th class='col-md-9'>Results</th>
+									  		<th class='col-md-2'>Date</th>
+								  		</tr>
+								  	</thead>
+								  	<tbody>
+								  		{{#each record.investigations}}
+									  		<tr class='investigationRow'>
+									  			<td>{{test}}</td> <td>{{results}}</td> <td>{{date}}</td>
+									  		</tr>
+								  		{{/each}}
+								  	</tbody>
+								</table>
+							</div>
+						</p>
+					</div>
+				</div>
+			</div>
+			{{/if}}
+      </div>
+	</div>
+</template>

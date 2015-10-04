@@ -1,0 +1,50 @@
+<template name='babyApptRecord'>
+	<div class='container'>
+		<blockquote style='font-size: 20px'>Appointments</blockquote>
+
+		<table class='hoverable'>
+			<thead>
+				<tr>
+					<th data-field="date">Date</th>
+					<th data-field="time">Time</th>
+					<th data-field="venus">Venue</th>
+					<th data-field="type">Type</th>
+					<th data-field="status"></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{{#each appt}}
+					<tr class='apptRowClick'>
+						<td>{{date}}</td>
+						<td>{{time}}</td>
+						<td>{{venue}}</td>
+						<td>{{type}}</td>
+						<td><i class="material-icons">{{visitedClass}}</i></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+
+	<div id="apptModal_Visited" class="modal">
+		<div class="modal-content">
+			<h5>Seen by: Dr. {{selectedApptDataRow.doc}}</h5>
+			<p>Remarks: {{selectedApptDataRow.remarks}} </p>
+			<img src="/bensignature.png" width='30%'>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+
+	<div id="apptModal_Missed" class="modal">
+		<div class="modal-content">
+			<h5>Appointment with {{selectedApptDataRow.venue}} on {{selectedApptDataRow.date}} @ {{selectedApptDataRow.time}} <u>Missed</u></h5>
+			<p>Please call the respective health care centre for rescheduling</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+</template>

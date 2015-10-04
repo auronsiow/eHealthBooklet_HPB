@@ -1,0 +1,31 @@
+<template name="childSelection">
+	<div class="container">
+		<div class="row">
+	      <div class="col s12">
+		  	<h5>
+		  		{{displayBabyName}}
+		  		<a class="btn-floating btn-small waves-effect waves-light teal lighten-1 menu_share" ><i class="material-icons">cloud</i></a>
+			</h5>
+	      </div>
+	    </div>
+
+	    <div class="row">
+	      <div class="col s12">
+			{{#each getBabyPhotos}}
+				<a href="#"><img src="/{{nric}}.jpg" class="img-rounded img-responsive img-responsive-small babyImg babyImg" id="baby{{index}}"></a>
+			{{/each}}
+	      </div>
+	    </div>		
+	</div>
+
+  <div id="shareModal" class="modal">
+	  <div class="modal-content">
+		  <h5><strong>Sharing your child's information:</strong></h5>
+		  <p><u> {{displayBabyName}} </u></p>
+		  <img class='img-responsive' src="/{{getBabyNRIC}}_shareCode.png" width="75%">
+	  </div>
+	  <div class="modal-footer">
+	  	<a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+	  </div>
+  </div>
+</template>

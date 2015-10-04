@@ -1,0 +1,24 @@
+<template name='navigationBar'>
+	<nav>
+	    <div class="nav-wrapper teal lighten-1">
+			<a href="#" class="brand-logo center inactiveLink" onclick="return false"><img height='24px' src="/loginLogo.png"></a>
+	      	<ul id="slide-out" class="side-nav">
+	    		<li class='menu_particulars' ><a href="#">Particulars</a></li>
+				<li class='menu_immunisation'><a href="#">Immunisation Record</a></li>
+				<li class='menu_allergy'><a href="#">Allergy Record</a></li>
+				<li class='menu_birthrecord'><a href="#">Birth Records</a></li>
+				<li class='menu_appt'><a href="#">Appointments</a></li>
+				<li class='menu_phys'><a href="#">Physical Status</a></li>
+				<li class='menu_tooth'><a href="#">Oral Health</a></li>
+				<li class='logout'><a href="#">Logout</a></li>
+	  		</ul>
+	  		<a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="mdi-navigation-menu"></i></a>
+	    </div>
+  	</nav>
+
+  	<script type="text/javascript">
+  		$(".button-collapse").sideNav({
+  			closeOnClick: true
+  		});
+  	</script>
+</template>

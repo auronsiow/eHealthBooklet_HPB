@@ -1,0 +1,31 @@
+<template name='babyPhysicalStatus'>
+	<div class='container'>
+		<blockquote style='font-size: 20px'>Physical Status</blockquote>
+		<div class='row'>
+			<form class="col s12 form_bmi">
+				<div class="row">
+					<div class="input-field col s4">
+						<input placeholder="0.74" id="txt_height" type="text" class="validate">
+						<label class='active' for="txt_height">Height (m)</label>
+					</div>
+					<div class="input-field col s4">
+						<input placeholder="3.6" id="txt_weight" type="text" class="validate">
+						<label class='active' for="txt_weight">Weight (kg)</label>
+					</div>
+					<div class="input-field col s4">
+						<p>BMI: {{getBMI}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s4">
+						<input placeholder="24" id="txt_circum" type="text" class="validate">
+						<label class='active' for="txt_circum">Head Circumference (cm)</label>
+					</div>
+					<!--<div class='col s4 offset-s4'>
+						<a class="btn-floating waves-effect waves-light red"><i class="material-icons">add</i></a>
+					</div>-->
+				</div>
+			</form>
+		</div>
+	</div>
+</template>

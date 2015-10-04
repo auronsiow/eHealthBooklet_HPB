@@ -1,0 +1,120 @@
+<template name='docMainContent'>
+	<div class="container">
+		<div class="row">
+			<h5>Welcome Dr. {{getDoctorName}} <a class="logout btn-floating waves-effect waves-light teal"><i class="material-icons">exit_to_app</i></a></h5>
+
+			<i class="material-icons prefix">recent_actors</i>
+			<label>Patient:</label>
+			<select id='patientSelect'>
+				<option value="" disabled selected>Select your patient</option>
+				{{#each getPatients}}
+					<option value="{{nric}}">{{nric}}</option>
+				{{/each}}
+			</select>
+
+		</div>
+		<div class='row'>
+			{{#if hasSelectedPatient}}
+			<div class='col s10'>
+				<h5>{{getSelectedPatient.name}}</h5>
+				<p>{{getPatientAge}}</p>
+			</div>
+			<div class='col s2'>
+				<img src="/{{getSelectedPatient.nric}}.jpg" class="img-responsive img-responsive-doc-view" id="baby{{index}}">
+			</div>
+			{{/if}}
+		</div>
+			{{#if hasSelectedPatient}}
+			<div class="btn-group">
+				<ul class="collapsible docImmuCollapsible" data-collapsible="expandable">
+					{{#each getPatientImmuList}}
+						<li>
+					      	<div class="collapsible-header active {{classColor}} "><i class="material-icons">open_in_new</i>{{name_s}}</div>
+					      	<div class="collapsible-body">
+								<table class='striped responsive-table'>
+									<thead>
+										<tr class="{{class}} clickedImmuRow">
+											<th data-field="id">Dose</th><th data-field="name">Taken/Date</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										{{#each desc}}
+											<tr class='clickedImmuRow'>
+												<td>{{dose}}</td>
+												<td>
+													{{#if equals taken 1 }}
+														<i class="material-icons">done</i>
+													{{/if}}
+													{{#if equals taken 0}}
+														<i class="material-icons">clear</i>	
+													{{/if}}
+													{{#if equals taken 2}}
+														<i class="material-icons">remove</i>
+													{{/if}}
+													{{#if equals taken -1}}
+														N/A
+													{{/if}}
+												</td>
+											</tr>
+										{{/each}}
+									</tbody>
+								</table>
+					      	</div>
+					    </li>
+					{{/each}}
+				</ul>
+	    	</div>
+	    	<script type="text/javascript">
+				$('.docImmuCollapsible').collapsible({
+			      accordion : false,
+			      expandable: true
+			    });
+			</script>
+		{{/if}}
+
+	</div>
+
+	<div id="modal1" class="modal modal-fixed-footer">
+		<div class="modal-content">
+			<form>
+				<div class='row'>
+					<div class='col s8'>
+						<h5>Immunisation: {{getImmunisationName}} <h5 class='{{getImmunisationStatusClass}}'>{{getImmunisationStatus}}</h5></h5>
+					</div>
+				</div>
+
+				<div class='row'>
+					<div class='col s4'>
+						<p>Date: {{getDateNow}}</p>
+					</div>
+				</div>
+				<div class='row'>
+					<div class="input-field col s6">
+						<input id="txt_brand" type="text" class="validate">
+						<label for="txt_brand">Brand</label>
+					</div>
+					<div class="input-field col s6">
+						<input id="txt_batch" type="text" class="validate">
+						<label for="txt_batch">Batch No</label>
+        			</div>
+				</div>
+				<div class='row'>
+					<div class="input-field col s12">
+						<i class="material-icons prefix">mode_edit</i>
+						<textarea id="textarea1" class="materialize-textarea"></textarea>
+						<label for="textarea1">Remarks</label>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="modal-action modal-close waves-effect waves-teal btn-flat modalClose"><i class="material-icons left">clear</i>Close</a>
+			<a href="#" class="modal-action modal-close waves-effect waves-teal btn-flat modalRecord"><i class="material-icons left">send</i>Record</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$('select').material_select();
+	</script>
+</template>

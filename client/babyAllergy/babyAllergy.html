@@ -1,0 +1,59 @@
+<template name='babyAllergy'>
+	<div class="container">
+		<div row> 
+			<blockquote style='font-size: 20px'>Allergies Record</blockquote>
+			{{#unless hasAllergyRecord}}
+				<h5 class="text-center">No allergies discovered</h5>
+			{{else}}
+				<table class='bordered hoverable centered'>
+					<thead>
+						<tr>
+							<th data-field="no">#</th>
+							<th data-field="allergen">Allergen</th>
+							<th data-field="status">Status</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{{#each babyAllergy}}
+					  		<tr class='babyAllergyRow {{colorClass}}' >
+					  			<td>{{index}}</td> <td>{{allergen}}</td> <td>{{status}}</td>
+					  		</tr>
+				  		{{/each}}
+					</tbody>
+				</table>
+			{{/unless}}
+		</div>
+	</div>
+
+
+	<div id="allergy_Modal" class="modal">
+		<div class="modal-content">
+			<h5><strong>Allergen: {{dialogGetAllergen}}</strong></h5>
+			<h6>{{dialogGetAllergenStatus}}</h6>
+			<p>{{dialogGetAllergenDesc}}</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+		</div>
+	</div>
+
+
+	<div id="allergy_desc_dialog" class="modal fade" tabindex="-1">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	        <h4 class="modal-title"><strong>Allergen: {{ dialogGetAllergen }}</strong></h4>
+	      </div>
+	      <div class="modal-body">
+			<h4> {{dialogGetAllergenStatus}}</h4>
+			<p> {{dialogGetAllergenDesc}}</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</template>

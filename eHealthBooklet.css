@@ -1,0 +1,38 @@
+/* CSS declarations go here */
+.img-responsive-big {
+	display: block;
+	max-width: 30%;
+	height: auto;
+	margin: 0 auto;
+	float: left;
+}
+
+.img-responsive-small {
+	display: block;
+	max-width: 15%;
+	height: auto;
+	margin:  0 auto;
+	float: left;
+}
+
+.img-responsive-doc-view {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	margin:  0 auto;
+	float: right;
+}
+
+.img-footer {
+	width: 120px;
+	float: left;
+}
+
+.immu_taken {
+	color: #AAA;
+}
+
+.inactiveLink {
+   pointer-events: none;
+   cursor: default;
+}

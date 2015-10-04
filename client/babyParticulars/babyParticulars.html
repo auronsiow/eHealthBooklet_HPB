@@ -1,0 +1,24 @@
+<template name='babyParticulars'>
+	<div class="container">
+		<blockquote style='font-size: 20px'>Particulars</blockquote>
+		<div row>
+			NRIC: {{baby.nric}}
+			<br>
+			{{baby.gender}}  
+			<br>
+			{{baby.race}}
+			<br>
+			{{getAge}}
+			<br>
+			Birth Date: {{baby.bday}}
+			<br>
+			Address: {{baby.address}}
+			<br><br>
+			Father: {{baby.m_name}} ({{baby.m_nric}}) 
+			<br>
+			Mother: {{baby.f_name}} ({{baby.f_nric}})
+			<br>
+			Gestation for {{baby.g_period}} weeks before birth @ {{baby.b_time}} hrs at {{baby.b_place}} via {{baby.b_method}}
+		</div>
+	</div>
+</template>

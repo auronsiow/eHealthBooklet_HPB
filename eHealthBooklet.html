@@ -1,0 +1,27 @@
+<head>
+	<title>eHealth Booklet</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+	{{#if currentUser}}
+		{{#if isDoc}}
+			{{> docMainContent}}
+		{{else}}
+			{{> navigationBar}}
+			{{> childSelection}}
+			{{> mainContent}}
+		{{/if}}
+	{{else}}
+		{{> login}}
+  	{{/if}}
+</body>
+
+<template name="register">
+	<form>
+		<input type="text" id="registerId">
+		<input type="password" id="registerPassword">
+		<input type="submit" value="Register">
+	</form>
+</template>
