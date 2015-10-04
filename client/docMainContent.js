@@ -150,7 +150,8 @@ Template.docMainContent.events({
 		newImmuRecord.desc = docDesc;
 		immuRecords.immu[doseIndex].desc[descIndex] = newImmuRecord;
 
-		ImmunisationRecords.update({_id: immuRecords._id}, immuRecords);
+		Meteor.call("updateImmunisation", immuRecords);
+		//ImmunisationRecords.update({_id: immuRecords._id}, immuRecords);
 	},
 	'click .clickedImmuRow': function(event) {
 		Session.set("clickedImmuRow", this);

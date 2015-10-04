@@ -1,31 +1,85 @@
 Meteor.startup(function () {
 
-	/*
-	HealthRecords.update(
-		{nric: "S0235839H"},
-		{$set: {
-				"b_time" : "0205",
-				"g_period" : 43,
-				"m_name" : "Tan Hong Hui",
-				"b_method" : "Unplanned Cesarean"
-				"birth_record": {"dis_date" : "5/5/2015"}
-				}
-		}
-	);
-
-	HealthRecords.update(
-		{nric: "S9591234H"},
-		{$set: {
-				"g_period" : 36
-				}
-		}
-	);
-	HealthRecords.update(
-		{nric: "S9511111B"},
-		{$set: {
-				"g_period" : 36
-				}
-		}
-	);
-	*/
 });
+
+Meteor.methods({
+	updateImmunisation: function(immuRecords) {
+		// user must be logged in and is a Doctor role. .profile property only exist for Doctor
+		if (!Meteor.userId() && Meteor.user().profile != null) {
+			throw new Meteor.Error("you are not authorized to modify the immunisation records")
+		}
+		
+		ImmunisationRecords.update({_id: immuRecords._id}, immuRecords);
+	}
+});
+
+var resetBCGForTan = function() {
+	ImmunisationRecords.update(
+		{nric: "S0235839H"},
+		{$set: {"immu" : [ { "name" : "Bacillus Calmette-Guerin", "name_s" : "BCG", "desc" : [ { "taken" : 0, "dose" : "1st" } ] }, { "name" : "Hepatitis B", "name_s" : "Hep B", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 1, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" } ] }, { "name" : "Diphtheria, Tentanus, Pertussis", "name_s" : "DTaP", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 0, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" }, { "taken" : 2, "dose" : "2nd booster" } ] }, { "name" : "Poliovirus", "name_s" : "IPV", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 0, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" }, { "taken" : 2, "dose" : "2nd booster" } ] }, { "name" : "Haemophilus influenzae type b", "name_s" : "Hib", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Roche", "batch" : "R1894B", "doc" : "Koh Xiao Min", "place" : "National University Hospital", "desc" : "Completed first dose for hib. Parents advised to follow up on subsequent dose" }, { "taken" : 1, "dose" : "2nd", "date" : "6/12/2014", "brand" : "Novartis", "batch" : "N129JFDF3J8FKDSKJD134J", "doc" : "Vince Koh Wei Jie", "place" : "Vince & Tom Pediatric Clinic", "desc" : "pt for 2nd dose of haemophilus. swelling on injection site (L arm). No medication required. kiv for future immunisation." }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" } ] }, { "name" : "Measles, Mumps, Rubella", "name_s" : "MMR", "desc" : [ { "taken" : 2, "dose" : "1st" }, { "taken" : 2, "dose" : "2nd/Booster" } ] }, { "name" : "Pneumococcal Conjugate", "name_s" : "PCV", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 2, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" } ] }, { "name" : "Human Papillomavirus", "name_s" : "HPV", "desc" : [ { "taken" : -1, "dose" : "1st" }, { "taken" : -1, "dose" : "2nd" }, { "taken" : -1, "dose" : "1st Booster" } ] } ] }}
+	);
+}
+
+var addToDB = function() {
+		/*
+	HealthRecords.remove({});
+	AppointmentRecords.remove({});
+	ImmunisationRecords.remove({});
+	Meteor.users.remove({});
+	
+	Accounts.createUser({
+		username: "S1234567A",	
+		password: "S1234567A"
+	});
+
+Accounts.createUser({
+	username: "E12389B",	
+	password: "E12389B",	
+	profile: {
+		"doctorName": "Keyser Feng Xian",
+		"doctorPlace": "Ng Teng Feng General Hospital"
+	}
+});
+
+HealthRecords.insert(
+{
+ "name" : "Roman Gustav Schindler", "nric" : "S9591234H", "gender" : "Male", "race" : "Jew", "age" : 18, "bday" : "29/04/2015", "address" : "Portsdown 134. Singapore 009134", "m_nric" : "S0912348H", "m_name" : "Gustaverson Schindler Sr", "f_nric" : "S1234567A", "f_name" : "Melankovic Jorgenson", "g_period" : 36, "b_time" : 2001, "b_place" : "Gleneagles Hospital ", "b_method" : "Vaginal Birth", "allergyList" : [ 
+	 { "allergen" : "Synflex",	 	"status" : "Confirmed",	 	"desc" : "by Dr. Mary Helms on 10/7/2015. Swelling of face and lips observed, accompanied by hives and skin rash" },	 { "allergen" : "Anarex",	 	"status" : "Suspected",	 	"desc" : "swelling of lips and tongue. black stools observed by parent. 1/7/2015. Dr. Goh Mei Ya, Audrey" },	 { "allergen" : "Penicillin",	 	"status" : "Confirmed",	 	"desc" : "by Dr. Tesla Phillips on 18/8/2015. Skin rash on both forearms and anterior torso observed. Conjuntivities with watery eyes (?). Do not prescribe similar class of antibiotics." } 
+	 ], "birth_record" : 
+	 { 
+	 "birth_weight" : 1540,	 "birth_length" : 80.7,	 "jaund" : true,	 "photo" : false,	 "ex_trans" : true,	 "dis_date" : "05/05/2015",	 "dis_weight" : 1655,	 "breast_fed" : true,	 "serum" : 12,	 "g6pd" : true,	 "g6pd_date" : "04/05/2015",	 "tsh" : 16,	 "tsh_date" : "03/05/2015",	 "ft4" : 12,	 "ft4_date" : "04/05/2015",	 "iem" : true,	 "oae" : true,	 "oae_date" : "04/05/2015",	 "oae_lp" : true,	 "oa_rp" : false,	 "abaer" : true,	 "abaer_date" : "04/05/2015",	 "abaer_lp" : true,	 "abaer_rp" : false,	 "follow" : false,	 "remarks" : "Nil",	 "investigations" : [ 
+		 { "test" : "Skin Prick",		 "results" : "Negative",		 "date" : "04/05/2015" } 
+		 ] 
+	} 
+});
+
+HealthRecords.insert(
+{
+ "name" : "Niko Gustav Schindler", "nric" : "S9511111B", "gender" : "Male", "race" : "Jew", "age" : 18, "bday" : "29/04/2015", "address" : "Portsdown 134. Singapore 009134", "m_nric" : "S0912348H", "m_name" : "Gustaverson Schindler Sr", "f_nric" : "S1234567A", "f_name" : "Melankovic Jorgenson", "g_period" : 36, "b_time" : 2005, "b_place" : "Gleneagles Hospital ", "b_method" : "Vaginal Birth", "allergyList" : [ ], "birth_record" : 
+	 { "birth_weight" : 1450,	 "birth_length" : 74.2,	 "jaund" : false,	 "photo" : false,	 "ex_trans" : false,	 "dis_date" : "05/05/2015",	 "dis_weight" : 1840,	 "breast_fed" : true,	 "serum" : 9,	 "g6pd" : false,	 "g6pd_date" : "04/05/2015",	 "tsh" : 6,	 "tsh_date" : "05/05/2015",	 "ft4" : 19,	 "ft4_date" : "05/05/2015",	 "iem" : true,	 "oae" : true,	 "oae_date" : "05/05/2015",	 "oae_lp" : true,	 "oa_rp" : false,	 "abaer" : false,	 "abaer_date" : "",	 "abaer_lp" : false,	 "abaer_rp" : false,	 "follow" : true,	 "remarks" : "Need to complete ABAER test",	 "investigations" : [ ] 
+	 } 
+});
+
+
+HealthRecords.insert(
+{"name" : "Tan Kok Phun", "nric" : "S0235839H", "gender" : "Male", "race" : "African American", "age" : 6, "bday" : "12/07/2015", "address" : "Blk 89. Joo Koon Crescent. #3-231. Singapore 485089", "m_nric" : "S1111111B", "m_name" : "Tan Hong Hui", "f_nric" : "S1234567A", "f_name" : "Melankovic Jorgenson", "g_period" : "43", "b_time" : "0200", "b_place" : "Khoo Tech Phuat Hospital", "b_method" : "Unplanned Cesarean", "allergyList" : [ ], "birth_record" : 
+	 { "birth_weight" : 1151,	 "birth_length" : 69.8,	 "jaund" : true,	 "photo" : false,	 "ex_trans" : false,	 "dis_date" : "18/07/2015",	 "dis_weight" : 1415,	 "breast_fed" : true,	 "serum" : 8,	 "g6pd" : false,	 "g6pd_date" : "13/07/2015",	 "tsh" : 8,	 "tsh_date" : "13/07/2015",	 "ft4" : 17,	 "ft4_date" : "15/07/2015",	 "iem" : true,	 "oae" : true,	 "oae_date" : "16/07/2015",	 "oae_lp" : true,	 "oa_rp" : false,	 "abaer" : false,	 "abaer_date" : "",	 "abaer_lp" : false,	 "abaer_rp" : false,	 "follow" : false,	 "remarks" : "Nil",	 "investigations" : [ ] 
+	 } 
+});
+
+ImmunisationRecords.insert (
+{"nric" : "S9591234H", "immu" : [ 
+	 { "name" : "Bacillus Calmette-Guerin",	 "name_s" : "BCG",	 "desc" : [ { "taken" : 1,	 "dose" : "1st",	 "date" : "24/11/2014",	 "brand" : "GlaxoSmithKline",	 "batch" : "J194093049340B",	 "doc" : "Francis Cezear",	 "place" : "Francis Family Clinic",	 "desc" : "Administered on the right arm. No further examinations required" } ] },	 { "name" : "Hepatitis B",	 "name_s" : "Hep B",	 "desc" : [ { "taken" : 1,	 "dose" : "1st",	 "date" : "30/11/2014",	 "brand" : "Bayer",	 "batch" : "FH7324987140D",	 "doc" : "Marilyn J. Cook",	 "place" : "St Jame's Hospital",	 "desc" : "Administered on right biceps." },	 { "taken" : 0,	 "dose" : "2nd" },	 { "taken" : 2,	 "dose" : "3rd" } ] },	 { "name" : "Diphtheria,	 Tentanus,	 Pertussis",	 "name_s" : "DTaP",	 "desc" : [ { "taken" : 1,	 "dose" : "1st",	 "date" : "30/11/2014",	 "brand" : "Pfizer",	 "batch" : "PF92103ER",	 "doc" : "Marilyn J. Cook",	 "place" : "St Jame's Hospital",	 "desc" : "Administered on right biceps. No reaction observed." },	 { "taken" : 0,	 "dose" : "2nd" },	 { "taken" : 2,	 "dose" : "3rd" },	 { "taken" : 2,	 "dose" : "1st booster" },	 { "taken" : 2,	 "dose" : "2nd booster" } ] },	 { "name" : "Poliovirus",	 "name_s" : "IPV",	 "desc" : [ { "taken" : 1,	 "dose" : "1st",	 "date" : "30/11/2014",	 "brand" : "Roche",	 "batch" : "R1894B",	 "doc" : "Rey J. Morgan",	 "place" : "Washington State Healthcare",	 "desc" : "For 1st dosage of polio." },	 { "taken" : 1,	 "dose" : "2nd",	 "date" : "6/12/2014",	 "brand" : "Novartis",	 "batch" : "N129JFDF3J8FKDSKJD134J",	 "doc" : "Ng Yue Heng",	 "place" : "Gleneagles Hospital",	 "desc" : "Administered. No side effects observed. Patient came with twin sibling" },	 { "taken" : 2,	 "dose" : "3rd" },	 { "taken" : 2,	 "dose" : "1st booster" },	 { "taken" : 2,	 "dose" : "2nd booster" } ] },	 { "name" : "Haemophilus influenzae type b",	 "name_s" : "Hib",	 "desc" : [ { "taken" : 1,	 "dose" : "1st",	 "date" : "30/11/2014",	 "brand" : "Roche",	 "batch" : "R1894B",	 "doc" : "Koh Xiao Min",	 "place" : "National University Hospital",	 "desc" : "Completed first dose for hib. Parents advised to follow up on subsequent dose" },	 { "taken" : 1,	 "dose" : "2nd",	 "date" : "6/12/2014",	 "brand" : "Novartis",	 "batch" : "N129JFDF3J8FKDSKJD134J",	 "doc" : "Vince Koh Wei Jie",	 "place" : "Vince & Tom Pediatric Clinic",	 "desc" : "pt for 2nd dose of haemophilus. swelling on injection site (L arm). No medication required. kiv for future immunisation." },	 { "taken" : 2,	 "dose" : "3rd" },	 { "taken" : 2,	 "dose" : "1st booster" } ] },	 { "name" : "Measles,	 Mumps,	 Rubella",	 "name_s" : "MMR",	 "desc" : [ { "taken" : 2,	 "dose" : "1st" },	 { "taken" : 2,	 "dose" : "2nd/Booster" } ] },	 { "name" : "Pneumococcal Conjugate",	 "name_s" : "PCV",	 "desc" : [ { "taken" : 0,	 "dose" : "1st" },	 { "taken" : 2,	 "dose" : "2nd" },	 { "taken" : 2,	 "dose" : "3rd" } ] },	 { "name" : "Human Papillomavirus",	 "name_s" : "HPV",	 "desc" : [ { "taken" : -1,	 "dose" : "1st" },	 { "taken" : -1,	 "dose" : "2nd" },	 { "taken" : -1,	 "dose" : "1st Booster" } ] } ] 
+});
+
+ImmunisationRecords.insert ({"nric" : "S9511111B", "immu" : [ { "name" : "Bacillus Calmette-Guerin", "name_s" : "BCG", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "24/11/2014", "brand" : "GlaxoSmithKline", "batch" : "J194093049340B", "doc" : "Francis Cezear", "place" : "Francis Family Clinic", "desc" : "Administered on the right arm. Rashes visible on anterior and posterior neck region upon administration. No further examinations required" } ] }, { "name" : "Hepatitis B", "name_s" : "Hep B", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Bayer", "batch" : "FH7324987140D", "doc" : "Marilyn J. Cook", "place" : "St Jame's Hospital", "desc" : "Administered on right biceps." }, { "taken" : 0, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" } ] }, { "name" : "Diphtheria, Tentanus, Pertussis", "name_s" : "DTaP", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Pfizer", "batch" : "PF92103ER", "doc" : "Marilyn J. Cook", "place" : "St Jame's Hospital", "desc" : "Administered on right biceps. No side effects observed." }, { "taken" : 1, "dose" : "2nd", "date" : "6/12/2014", "brand" : "Pfizer", "batch" : "PF100000ER", "doc" : "Marilyn J. Cook", "place" : "St Jame's Hospital", "desc" : "Administered on left biceps. No side effects observed during examination. Parent advised to take note of common side effects; on side of injection, fever, muscle/joint pain, fatigue, shivering." }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" }, { "taken" : 2, "dose" : "2nd booster" } ] }, { "name" : "Poliovirus", "name_s" : "IPV", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Roche", "batch" : "R1894B", "doc" : "Rey J. Morgan", "place" : "Washington State Healthcare", "desc" : "For 1st dosage of polio." }, { "taken" : 1, "dose" : "2nd", "date" : "6/12/2014", "brand" : "Novartis", "batch" : "N129JFDF3J8FKDSKJD134J", "doc" : "Ng Yue Heng", "place" : "Gleneagles Hospital", "desc" : "Administered. No side effects observed." }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" }, { "taken" : 2, "dose" : "2nd booster" } ] }, { "name" : "Haemophilus influenzae type b", "name_s" : "Hib", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Roche", "batch" : "R1894B", "doc" : "Koh Xiao Min", "place" : "National University Hospital", "desc" : "Completed first dose for hib. Parents advised to follow up on subsequent dose" }, { "taken" : 1, "dose" : "2nd", "date" : "6/12/2014", "brand" : "Novartis", "batch" : "N129JFDF3J8FKDSKJD134J", "doc" : "Vince Koh Wei Jie", "place" : "Vince & Tom Pediatric Clinic", "desc" : "Patient here for 2nd dose of haemophilus. kiv for future immunisation" }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" } ] }, { "name" : "Measles, Mumps, Rubella", "name_s" : "MMR", "desc" : [ { "taken" : 2, "dose" : "1st" }, { "taken" : 2, "dose" : "2nd/Booster" } ] }, { "name" : "Pneumococcal Conjugate", "name_s" : "PCV", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Roche", "batch" : "R0094Z", "doc" : "Rachael Quek", "place" : "Tan Clinic and Surgery", "desc" : "Completed first dose of pcv." }, { "taken" : 2, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" } ] }, { "name" : "Human Papillomavirus", "name_s" : "HPV", "desc" : [ { "taken" : -1, "dose" : "1st" }, { "taken" : -1, "dose" : "2nd" }, { "taken" : -1, "dose" : "1st Booster" } ] } ] });
+
+ImmunisationRecords.insert ({"nric" : "S0235839H", "immu" : [ { "name" : "Bacillus Calmette-Guerin", "name_s" : "BCG", "desc" : [ { "taken" : 0, "dose" : "1st" } ] }, { "name" : "Hepatitis B", "name_s" : "Hep B", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 1, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" } ] }, { "name" : "Diphtheria, Tentanus, Pertussis", "name_s" : "DTaP", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 0, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" }, { "taken" : 2, "dose" : "2nd booster" } ] }, { "name" : "Poliovirus", "name_s" : "IPV", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 0, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" }, { "taken" : 2, "dose" : "2nd booster" } ] }, { "name" : "Haemophilus influenzae type b", "name_s" : "Hib", "desc" : [ { "taken" : 1, "dose" : "1st", "date" : "30/11/2014", "brand" : "Roche", "batch" : "R1894B", "doc" : "Koh Xiao Min", "place" : "National University Hospital", "desc" : "Completed first dose for hib. Parents advised to follow up on subsequent dose" }, { "taken" : 1, "dose" : "2nd", "date" : "6/12/2014", "brand" : "Novartis", "batch" : "N129JFDF3J8FKDSKJD134J", "doc" : "Vince Koh Wei Jie", "place" : "Vince & Tom Pediatric Clinic", "desc" : "pt for 2nd dose of haemophilus. swelling on injection site (L arm). No medication required. kiv for future immunisation." }, { "taken" : 2, "dose" : "3rd" }, { "taken" : 2, "dose" : "1st booster" } ] }, { "name" : "Measles, Mumps, Rubella", "name_s" : "MMR", "desc" : [ { "taken" : 2, "dose" : "1st" }, { "taken" : 2, "dose" : "2nd/Booster" } ] }, { "name" : "Pneumococcal Conjugate", "name_s" : "PCV", "desc" : [ { "taken" : 0, "dose" : "1st" }, { "taken" : 2, "dose" : "2nd" }, { "taken" : 2, "dose" : "3rd" } ] }, { "name" : "Human Papillomavirus", "name_s" : "HPV", "desc" : [ { "taken" : -1, "dose" : "1st" }, { "taken" : -1, "dose" : "2nd" }, { "taken" : -1, "dose" : "1st Booster" } ] } ] });
+
+AppointmentRecords.insert ({"nric" : "S9511111B", "appt" : [ { "date" : "20/6/2015", "time" : "10.30am", "venue" : "NUH", "type" : "Health Education", "visited" : 0 }, { "date" : "20/7/2015", "time" : "1.10pm", "venue" : "Benjamin Toh Paediatric Clinic", "type" : "Immunisation", "visited" : 1, "desc" : { "doc" : "Benjamin Toh Kai Jie", "remarks" : "administered dtp on left arm. pt well with no side effects observed. parent advised to follow up subsequent immunisation with staff nurse. - Ben Toh" } }, { "date" : "1/9/2016", "time" : "9.45am", "venue" : "Gleneagles Hospital", "type" : "Development Screening", "visited" : 2 } ] });
+
+AppointmentRecords.insert ({"nric" : "S9591234H", "appt" : [ { "date" : "20/7/2015", "time" : "1.10pm", "venue" : "NUH", "type" : "Health Education", "visited" : 1, "desc" : { "doc" : "Liu Jia Min", "remarks" : "parent here to find out more about child's allergies. informed not to give over-the-counter paracetamol or similar class drugs for pain/fever. advised to visited nearest family clinic or hospital for medical attention. pt was well and with no c/o." } } ] });
+
+AppointmentRecords.insert ({"nric" : "S0235839H", "appt" : [ { "date" : "20/8/2015", "time" : "11.15am", "venue" : "Jurong Medical Centre", "type" : "Medical Consultation", "visited" : 1, "desc" : { "doc" : "Phun Pang", "remarks" : "pt here for general consultation. vitals and physical stat normal. c/o: skin rashes on L arm, otherwise development normal. topical calamine PRN." } } ] });
+*/
+};
