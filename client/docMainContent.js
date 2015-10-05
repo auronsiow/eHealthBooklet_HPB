@@ -170,6 +170,9 @@ Template.docMainContent.events({
 		 		complete: function(){}
 		 	});
 		}
+	},
+	'click .resetImmu': function(event) {
+		Meteor.call("resetImmunisation");
 	}
 });
 

@@ -1,7 +1,9 @@
 <template name='docMainContent'>
 	<div class="container">
 		<div class="row">
-			<h5>Welcome Dr. {{getDoctorName}} <a class="logout btn-floating waves-effect waves-light teal"><i class="material-icons">exit_to_app</i></a></h5>
+			<h5>Welcome Dr. {{getDoctorName}} 
+				<a class="logout btn-floating waves-effect waves-light teal"><i class="material-icons">exit_to_app</i></a>
+			</h5>
 
 			<i class="material-icons prefix">recent_actors</i>
 			<label>Patient:</label>
@@ -65,6 +67,8 @@
 					{{/each}}
 				</ul>
 	    	</div>
+
+			<a class="btn-flat white resetImmu"></a>
 	    	<script type="text/javascript">
 				$('.docImmuCollapsible').collapsible({
 			      accordion : false,
